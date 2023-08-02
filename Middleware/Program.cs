@@ -1,4 +1,5 @@
 using Middleware.Extension;
+using Middleware.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<FactoryMiddleware>();
 
 var app = builder.Build();
 
@@ -21,27 +24,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCustomExceptionHandler();
 
-app.Use(async (context, next) =>
-{
-
-    Console.WriteLine("Before...");
-
-    await next.Invoke();
-
-    Console.WriteLine("After...");
-});
-
-
-app.Use(async (context, next) =>
-{
-
-    Console.WriteLine("Before..");
-
-    await next.Invoke();
-
-    Console.WriteLine("After...");
-});
-
+//app.UseMiddleware<FactoryMiddleware>();
 
 app.UseHttpsRedirection();
 
