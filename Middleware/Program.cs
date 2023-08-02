@@ -28,7 +28,7 @@ app.Use(async (context, next) =>
 
     await next.Invoke();
 
-     Console.WriteLine("After...");
+    Console.WriteLine("After...");
 });
 
 

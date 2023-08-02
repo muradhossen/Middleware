@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Net;
-using System.Net.Http.Json;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using System.Net;
 
 
 namespace Middleware.Middleware
@@ -21,16 +16,11 @@ namespace Middleware.Middleware
         {
             try
             {
-              
+                Console.WriteLine("Custom middleware before next invoke...");
 
                 await _next.Invoke(context);
 
-
-
-                string json = JsonSerializer.Serialize(new { response = "My message " });
-
-                await context.Response.WriteAsync(json);
-
+                Console.WriteLine("Custom middleware after next invoke...");
             }
             catch (Exception ex)
             {
@@ -38,7 +28,7 @@ namespace Middleware.Middleware
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 context.Response.ContentType = "application/json";
 
-                await context.Response.WriteAsync("Internal Server Error!" );
+                await context.Response.WriteAsync("Internal Server Error!");
                 throw;
             }
         }
